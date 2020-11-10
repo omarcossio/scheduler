@@ -76,8 +76,16 @@ body {
     font-size: 20px;
     transition: all .3s ease-in-out;
   }
-  .saveBtn i {
+
+  .saveBtn i button{
+    padding: 25px;
+    height: 75px;
+    width: auto;
+}
+  .saveBtn i input{
       padding: 30px;
+      height: 75px;
+      width: auto;
   }
   
   .center-align {
