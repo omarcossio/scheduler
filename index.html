@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous"></script>
     <title>Work Day Scheduler</title>
 </head>
 
@@ -27,119 +30,211 @@
             <tr class="row">
                 <td class="hour" id="hour900">&nbsp;&nbsp;9AM</td>
                 <td class="" id="event900"><textarea id="text900" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save900"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save900"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1000">10AM</td>
                 <td class="" id="event1000"><textarea id="text1000" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1000"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1000"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1100">11AM</td>
                 <td class="" id="event1100"><textarea id="text1100" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1100"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1100"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1200">12PM</td>
                 <td class="" id="event1200"><textarea id="text1200" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1200"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1200"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1300">&nbsp;&nbsp;1PM</td>
                 <td class="" id="event1300"><textarea id="text1300" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1300"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1300"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1400">&nbsp;&nbsp;2PM</td>
                 <td class="" id="event1400"><textarea id="text1400" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1400"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1400"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1500">&nbsp;&nbsp;3PM</td>
                 <td class="" id="event1500"><textarea id="text1500" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1500"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1500"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1600">&nbsp;&nbsp;4PM</td>
                 <td class="" id="event1600"><textarea id="text1600" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1600"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1600"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
             <tr class="row">
                 <td class="hour" id="hour1700">&nbsp;&nbsp;5PM</td>
                 <td class="" id="event1700"><textarea id="text1700" cols="100"></textarea></td>
-                <td class="saveBtn"><i id="save1700"><button class="btn btn-link btn-lg text-light"><span class="far fa-save"></span></button></i></td>
+                <td class="saveBtn"><i id="save1700"><button class="btn btn-link btn-lg text-light"><span
+                                class="far fa-save"></span></button></i></td>
             </tr>
 
         </table>
         <br><br><br>
     </div>
 
+
     <script>
+        //script begins
 
-        var storedEventArr = JSON.parse(localStorage.getItem("eventArr"));
-        var eventArr = [];
+        var date = moment().format('dddd, MMMM D');
+        $("#currentDay").text(date);
+        var hourDigit = moment().format('H');
+        //line below turns hourDigit value into a moment
+        var currentHour = moment(hourDigit, 'H');
 
-        if (storedEventArr != null) {
-            eventArr = storedEventArr;
+        // fake current hour for testing...uncomment line below to test
+        // var currentHour = moment('12', 'H');
+
+
+        var everyHour = ['9', '10', '11', '12', '13', '14', '15', '16', '17'];
+
+        // Will color code event slots that are before the current hour
+        for (i = 0; i < everyHour.length; i++) {
+            var selectedHour = everyHour[i];
+            colorDisplay(selectedHour);
         }
-        var timeSlot;
 
-        function saveEvent(timeSlot) {
-
-            var textID = "#text" + timeSlot;
-            console.log("textId: "+textID);
-            var eventText = $(textID).val();
-            var msg = "{ timeSlot: ''" + timeSlot + "'', event: ''" + eventText + "''}";
-            console.log(msg);
-
-            if (eventText != null && eventText != ""){
-                eventArr.push(msg);
+        function colorDisplay(hourH) {
+            var textAreaId = "#text" + hourH + "00";
+            var currentSlot = moment(hourH, 'H');
+            var past = currentHour.isAfter(currentSlot);
+            var future = currentHour.isBefore(currentSlot);
+            if (past == true) {
+                //sets background area to gray
+                $(textAreaId).css('background-color', '#E0E0E0');
             }
-            
-            localStorage.setItem("eventArr", JSON.stringify(eventArr));
+            else if (future == true) {
+                //sets background area to green
+                $(textAreaId).css('background-color', '#33FF33');
+            }
+            // else statement applies to 'present' time slot
+            else {
+                //sets background area to red
+                $(textAreaId).css('background-color', '#FF3333');
+            }
         }
 
+        // create array to hold event details
+        var eventArr2 = [
+            {
+                textAreaKey: "#text900",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1000",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1100",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1200",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1300",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1400",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1500",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1600",
+                text2: "",
+            },
+            {
+                textAreaKey: "#text1700",
+                text2: "",
+            },
+        ];
 
+        // Getting "eventArr2" from localStorage and parsing it to store it in storedEventArr
+        var storedEventArr = JSON.parse(localStorage.getItem("eventArr2"));
+        // if statement to check that storedEventArr is not empty
+        if (storedEventArr != null) {
+            eventArr2 = storedEventArr;
+
+        }
+        // for loop to cycle through eventArr2 and prints existing events
+        for (i = 0; i < eventArr2.length; i++) {
+            var id = eventArr2[i].textAreaKey;
+            var eText = eventArr2[i].text2;
+            $(id).text(eText);
+        }
+
+        // function that saves events in scheduler
+        function saveEvent(timeSlot) {
+            event.preventDefault();
+
+            var textID = "#text" + timeSlot + "00";
+            var eventText = $(textID).val();
+            var timeIndex = timeSlot - 9;
+            eventArr2[timeIndex].text2 = eventText;
+
+            localStorage.setItem("eventArr2", JSON.stringify(eventArr2));
+        }
+
+        // on-click listener event functions for save buttons
         $("#save900").on("click", function () {
-            saveEvent(900);
+            saveEvent(9);
         })
 
         $("#save1000").on("click", function () {
-            saveEvent(1000);
+            saveEvent(10);
         })
 
         $("#save1100").on("click", function () {
-            saveEvent(1100);
+            saveEvent(11);
         })
 
         $("#save1200").on("click", function () {
-            saveEvent(1200);
+            saveEvent(12);
         })
 
         $("#save1300").on("click", function () {
-            saveEvent(1300);
+            saveEvent(13);
         })
 
         $("#save1400").on("click", function () {
-            saveEvent(1400);
+            saveEvent(14);
         })
 
         $("#save1500").on("click", function () {
-            saveEvent(1500);
+            saveEvent(15);
         })
 
         $("#save1600").on("click", function () {
-            saveEvent(1600);
+            saveEvent(16);
         })
 
         $("#save1700").on("click", function () {
-            saveEvent(1700);
+            saveEvent(17);
         })
 
-
+    // End script
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 </body>
 
 </html>

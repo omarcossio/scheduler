@@ -82,12 +82,3 @@ body {
     height: 75px;
     width: auto;
 }
-  .saveBtn i input{
-      padding: 30px;
-      height: 75px;
-      width: auto;
-  }
-  
-  .center-align {
-    vertical-align: middle;
-  }
